@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "257116982015",
+    "firebase_url": "https://makeakunprodiet.firebaseio.com",
+    "project_id": "makeakunprodiet",
+    "storage_bucket": "makeakunprodiet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257116982015:android:f647296a3a76cfc1981aca",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase_auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257116982015-r982edc1opcg3bu83bm715he0a54seru.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBko9J9ekcuo6zf6dnBLfhA3dQ6rOpfKU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257116982015-r982edc1opcg3bu83bm715he0a54seru.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
