@@ -107,7 +107,8 @@ class _MyAppState extends State<MyApp> {
                                         if (e.code == 'user-not-found' ||
                                             e.code == 'wrong-password') {
                                           SnackBar message = SnackBar(
-                                            content: Text('Wrong email or password'),
+                                            content:
+                                                Text('Wrong email or password'),
                                           );
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(message);
@@ -125,6 +126,25 @@ class _MyAppState extends State<MyApp> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Register page'),
+      ),
+      body: Center(
+        child: Text('Register Page'),
       ),
     );
   }
