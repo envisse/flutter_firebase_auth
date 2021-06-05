@@ -85,36 +85,7 @@ class _MyAppState extends State<MyApp> {
                                 height: 50,
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                    onPressed: () async {
-                                      if (!_formkey.currentState.validate()) {
-                                        return;
-                                      }
-                                      try {
-                                        UserCredential userCredential =
-                                            await FirebaseAuth.instance
-                                                .signInWithEmailAndPassword(
-                                                    email: _username.text,
-                                                    password: _password.text);
-
-                                        if (userCredential.user != null) {
-                                          SnackBar message = SnackBar(
-                                            content: Text('Logged In'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(message);
-                                        }
-                                      } on FirebaseAuthException catch (e) {
-                                        if (e.code == 'user-not-found' ||
-                                            e.code == 'wrong-password') {
-                                          SnackBar message = SnackBar(
-                                            content:
-                                                Text('Wrong email or password'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(message);
-                                        }
-                                      }
-                                    },
+                                    onPressed: () => button(),
                                     child: Text('Login')))
                           ],
                         ),
@@ -128,6 +99,32 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void button() async {
+    if (!_formkey.currentState.validate()) {
+      return;
+    }
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _username.text, password: _password.text);
+
+      if (userCredential.user != null) {
+        snackbar(context, 'Logged in');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        snackbar(context, 'Wrong Username or Password');
+      }
+    }
+  }
+
+  void snackbar(BuildContext context, String text) {
+    SnackBar message = SnackBar(
+      content: Text(text),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(message);
   }
 }
 
