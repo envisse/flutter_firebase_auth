@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_firebase_auth/actionbutton.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +86,11 @@ class _MyAppState extends State<MyApp> {
                                 height: 50,
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                    onPressed: () => button(),
+                                    onPressed: () => Buttonaction.login(
+                                        context: context,
+                                        formstate: _formkey,
+                                        password: _password,
+                                        username: _username),
                                     child: Text('Login')))
                           ],
                         ),
@@ -99,32 +104,6 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  void button() async {
-    if (!_formkey.currentState.validate()) {
-      return;
-    }
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _username.text, password: _password.text);
-
-      if (userCredential.user != null) {
-        snackbar(context, 'Logged in');
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        snackbar(context, 'Wrong Username or Password');
-      }
-    }
-  }
-
-  void snackbar(BuildContext context, String text) {
-    SnackBar message = SnackBar(
-      content: Text(text),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(message);
   }
 }
 
