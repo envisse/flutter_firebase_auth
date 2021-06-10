@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_firebase_auth/service/authentication_service.dart';
 import 'package:flutter_firebase_auth/page/page_authentication.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: Authenticationchecker(),
+        builder: EasyLoading.init(),
       ),
+
     );
   }
 }
