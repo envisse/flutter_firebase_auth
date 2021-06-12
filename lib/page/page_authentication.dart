@@ -4,6 +4,7 @@ import 'package:flutter_firebase_auth/page/page_Home.dart';
 import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_firebase_auth/service/authentication_service.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class Authenticationchecker extends StatelessWidget {
   @override
@@ -18,8 +19,8 @@ class Authenticationchecker extends StatelessWidget {
 }
 
 class LoginPage extends StatelessWidget {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  final _username = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final _email = TextEditingController();
   final _password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   @override
@@ -47,7 +48,7 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            controller: _username,
+                            controller: _email,
                             // validator if it's not email
                             validator: (value) {
                               if (value.isEmpty) {
@@ -59,7 +60,7 @@ class LoginPage extends StatelessWidget {
                               }
                             },
                             decoration: InputDecoration(
-                                labelText: 'Username',
+                                labelText: 'Email',
                                 border: OutlineInputBorder()),
                           ),
                           SizedBox(
@@ -83,10 +84,10 @@ class LoginPage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formkey.currentState.validate()) {
-                                  context.read<AuthenticationService>().SignIn(
-                                      email: _username.text,
+                                  context.read<AuthenticationService>().signin(
+                                      email: _email.text,
                                       password: _password.text,
-                                      Context: context);
+                                      context: context);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("can't proceed")));
@@ -98,6 +99,22 @@ class LoginPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10))),
                             ),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: SignInButton(
+                              Buttons.Google,
+                              text: "Sign up with Google",
+                              onPressed: () {
+                                context
+                                    .read<AuthenticationService>()
+                                    .signInWithGoogle();
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -213,10 +230,10 @@ class RegisterPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formkey.currentState.validate()) {
-                              context.read<AuthenticationService>().SignUp(
+                              context.read<AuthenticationService>().signup(
                                   email: _email.text,
                                   password: _password.text,
-                                  Context: context);
+                                  context: context);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("can't proceed")));

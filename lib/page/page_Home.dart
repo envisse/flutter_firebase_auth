@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
               Text('Home Page'),
               ElevatedButton(
                   onPressed: () {
-                    context.read<AuthenticationService>().Signout();
+                    context.read<AuthenticationService>().signout();
                   },
                   child: Text('SignOut'))
             ],

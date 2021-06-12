@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -9,12 +10,14 @@ class AuthenticationService {
 
   Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<void> Signout() async {
+  Future<void> signout() async {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> SignIn(
-      {String email, String password, BuildContext Context}) async {
+
+  // login with username and password
+  Future<void> signin(
+      {String email, String password, BuildContext context}) async {
     EasyLoading.show(
       status: 'Loading',
       maskType: EasyLoadingMaskType.black,
@@ -23,17 +26,42 @@ class AuthenticationService {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       EasyLoading.dismiss();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       EasyLoading.dismiss();
       SnackBar message = SnackBar(
         content: Text('Wrong username or password'),
       );
-      ScaffoldMessenger.of(Context).showSnackBar(message);
+      ScaffoldMessenger.of(context).showSnackBar(message);
     }
   }
 
-  Future<String> SignUp(
-      {String email, String password, BuildContext Context}) async {
+  // Login with google account
+  Future<void> signInWithGoogle({BuildContext context}) async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    try {
+      await _firebaseAuth.signInWithCredential(credential);
+    } on FirebaseAuthException {
+      SnackBar message = SnackBar(
+        content: Text('Something wrong'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(message);
+    }
+  }
+
+  Future<void> signup(
+      {String email, String password, BuildContext context}) async {
     EasyLoading.show(
       status: 'Loading',
       maskType: EasyLoadingMaskType.black,
@@ -43,14 +71,13 @@ class AuthenticationService {
           email: email, password: password); //auto login
       EasyLoading.dismiss();
       _firebaseAuth.signOut(); //setelah buat id langsung log out
-      Navigator.pop(Context);
-
-    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+    } on FirebaseAuthException {
       EasyLoading.dismiss();
       SnackBar message = SnackBar(
         content: Text('Failed to make it'),
       );
-      ScaffoldMessenger.of(Context).showSnackBar(message);
+      ScaffoldMessenger.of(context).showSnackBar(message);
     }
   }
 }
