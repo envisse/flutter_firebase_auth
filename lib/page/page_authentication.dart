@@ -26,117 +26,116 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'LOGIN',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Form(
-                    key: _formkey,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: _email,
-                            // validator if it's not email
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "empty";
-                              } else if (!EmailValidator.validate(value)) {
-                                return "wrong email format";
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  'LOGIN',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                Form(
+                  key: _formkey,
+                  child: Container(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _email,
+                          // validator if it's not email
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "empty";
+                            } else if (!EmailValidator.validate(value)) {
+                              return "wrong email format";
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Email', border: OutlineInputBorder()),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _password,
+                          validator: (value) =>
+                              value.isEmpty ? "fill password" : null,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              border: OutlineInputBorder()),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formkey.currentState.validate()) {
+                                context.read<AuthenticationService>().signin(
+                                    email: _email.text,
+                                    password: _password.text,
+                                    context: context);
                               } else {
-                                return null;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("can't proceed")));
                               }
                             },
-                            decoration: InputDecoration(
-                                labelText: 'Email',
-                                border: OutlineInputBorder()),
+                            child: Text('Login'),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                           ),
-                          SizedBox(
-                            height: 10,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: SignInButton(
+                            Buttons.Google,
+                            text: "Sign up with Google",
+                            onPressed: () {
+                              context
+                                  .read<AuthenticationService>()
+                                  .signInWithGoogle();
+                            },
                           ),
-                          TextFormField(
-                            controller: _password,
-                            validator: (value) =>
-                                value.isEmpty ? "fill password" : null,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                labelText: 'Password',
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            height: 50,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_formkey.currentState.validate()) {
-                                  context.read<AuthenticationService>().signin(
-                                      email: _email.text,
-                                      password: _password.text,
-                                      context: context);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("can't proceed")));
-                                }
-                              },
-                              child: Text('Login'),
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            height: 50,
-                            width: double.infinity,
-                            child: SignInButton(
-                              Buttons.Google,
-                              text: "Sign up with Google",
-                              onPressed: () {
-                                context
-                                    .read<AuthenticationService>()
-                                    .signInWithGoogle();
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account ?"),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
-                      },
-                      child: Text('Sign up'))
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Don't have an account ?"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()));
+                    },
+                    child: Text('Sign up'))
+              ],
+            )
+          ],
         ),
       ),
     );
