@@ -14,7 +14,6 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-
   // login with username and password
   Future<void> signin(
       {String email, String password, BuildContext context}) async {
@@ -59,6 +58,25 @@ class AuthenticationService {
       ScaffoldMessenger.of(context).showSnackBar(message);
     }
   }
+
+  // Future<void> signinwithFacebook(BuildContext context) async {
+  //   // Trigger the sign-in flow
+  //   final AccessToken result = await FacebookAuth.instance.login();
+
+  //   // Create a credential from the access token
+  //   final facebookAuthCredential =
+  //       FacebookAuthProvider.credential(result.token);
+
+  //   // Once signed in, return the UserCredential
+  //   try {
+  //     await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+  //   } on FirebaseAuthException {
+  //     SnackBar message = SnackBar(
+  //       content: Text('Something wrong'),
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(message);
+  //   }
+  // }
 
   Future<void> signup(
       {String email, String password, BuildContext context}) async {

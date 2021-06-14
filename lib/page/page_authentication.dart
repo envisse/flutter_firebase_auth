@@ -26,6 +26,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
@@ -108,6 +109,22 @@ class LoginPage extends StatelessWidget {
                           child: SignInButton(
                             Buttons.Google,
                             text: "Sign up with Google",
+                            onPressed: () {
+                              context
+                                  .read<AuthenticationService>()
+                                  .signInWithGoogle();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: SignInButton(
+                            Buttons.Facebook,
+                            text: "Sign up with Facebook",
                             onPressed: () {
                               context
                                   .read<AuthenticationService>()
