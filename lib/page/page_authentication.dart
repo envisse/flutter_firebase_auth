@@ -103,6 +103,32 @@ class LoginPage extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: new Container(
+                                margin: EdgeInsets.only(right: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                  height: 36,
+                                ),
+                              ),
+                            ),
+                            Text('OR'),
+                            Expanded(
+                              child: new Container(
+                                margin: EdgeInsets.only(left: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                  height: 36,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         SizedBox(
                           height: 50,
                           width: double.infinity,
@@ -123,12 +149,12 @@ class LoginPage extends StatelessWidget {
                           height: 50,
                           width: double.infinity,
                           child: SignInButton(
-                            Buttons.Facebook,
+                            Buttons.FacebookNew,
                             text: "Sign up with Facebook",
                             onPressed: () {
                               context
                                   .read<AuthenticationService>()
-                                  .signInWithGoogle();
+                                  .signinwithFacebook(context);
                             },
                           ),
                         )

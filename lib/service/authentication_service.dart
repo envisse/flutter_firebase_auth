@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -49,6 +50,7 @@ class AuthenticationService {
       idToken: googleAuth.idToken,
     );
 
+    // Once signed in, return the UserCredential
     try {
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException {
@@ -59,24 +61,17 @@ class AuthenticationService {
     }
   }
 
-  // Future<void> signinwithFacebook(BuildContext context) async {
-  //   // Trigger the sign-in flow
-  //   final AccessToken result = await FacebookAuth.instance.login();
+  //  sign in with facebook account
+  Future<void> signinwithFacebook(BuildContext context) async {
+    // Trigger the sign-in flow
+    final LoginResult result = await FacebookAuth.instance.login();
 
-  //   // Create a credential from the access token
-  //   final facebookAuthCredential =
-  //       FacebookAuthProvider.credential(result.token);
-
-  //   // Once signed in, return the UserCredential
-  //   try {
-  //     await _firebaseAuth.signInWithCredential(facebookAuthCredential);
-  //   } on FirebaseAuthException {
-  //     SnackBar message = SnackBar(
-  //       content: Text('Something wrong'),
-  //     );
-  //     ScaffoldMessenger.of(context).showSnackBar(message);
-  //   }
-  // }
+    if (result.status == LoginStatus.success) {
+      print('success');
+    } else {
+      print('not success');
+    }
+  }
 
   Future<void> signup(
       {String email, String password, BuildContext context}) async {

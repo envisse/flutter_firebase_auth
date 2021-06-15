@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">com.example.flutter_firebase_auth</string>
+    <string name="facebook_app_id">912523669299230</string>
+    <string name="fb_login_protocol_scheme">fb912523669299230</string>
+</resources>
