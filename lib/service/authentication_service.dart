@@ -67,9 +67,17 @@ class AuthenticationService {
     final LoginResult result = await FacebookAuth.instance.login();
 
     if (result.status == LoginStatus.success) {
-      print('success');
-    } else {
-      print('not success');
+      final OAuthCredential facebookcredential =
+          FacebookAuthProvider.credential(result.accessToken.token);
+
+      try {
+        await _firebaseAuth.signInWithCredential(facebookcredential);
+      } on FirebaseAuthException {
+        SnackBar message = SnackBar(
+          content: Text('Something wrong'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(message);
+      }
     }
   }
 
